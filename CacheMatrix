@@ -1,0 +1,27 @@
+#This function takes a matrix and sets the value then gets/sets the inverse
+makeCacheMatrix <- function(x=matrix()){
+  inv <- null #cached inverse of matrix
+  get<-function(x) #get matrix
+  set<-function(y){ #set matrix
+    x<<-y ##assigns object
+    inv<<-NULL
+  }
+  #get inverse,set inverse
+  getinv<-function() inv #calculate the inverse
+  setinv<-function(inverse) inv<<-inverse
+  #list of function for matrix
+  list(get=get,set=set,getinv=getinv,setinv=setinv)
+}
+
+#Calculates the inverse of the matrix, if it has already been solved then spits out the prior saved solution
+cacheSolve<-function(x,...){
+  inv<- x$getinv()
+  if(!is.null(inv)){ #is the inverse has already been calculated, get from cache and skip calculation
+    message("inverse is cached")
+    return(inv)
+  }
+  m<-x$get() #if the inverse has not been calculated, calcuate the inverse
+  inv<-solve(m,...)
+  x$setinv(inv)
+  return(inv) #print inverse
+}
